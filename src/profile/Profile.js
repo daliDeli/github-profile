@@ -1,10 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
 
 export const Profile = props => {
     const noData = 'Data is not provided.';
     const defaultImg = 'http://www.hope3k.net/images/placeholders/team-placeholder.jpg';
     const { name, avatarUrl, company, location, bio } = props.profileData;
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };      
 
     return (
         <div>
@@ -22,27 +33,24 @@ export const Profile = props => {
                 Bio: {bio || noData}
             </h3>
             <div>
-        <button onClick={this.openModal}>Open Modal</button>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
- 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-          <button onClick={this.closeModal}>close</button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
-        </Modal>
-      </div>
+                <button onClick={props.openModal}>Change Profile Data</button>
+                <Modal
+                    isOpen={props.modalIsOpen}
+                    onRequestClose={props.closeModal}
+                    style={customStyles} 
+                    contentLabel='Modal for Github Data Editing'
+                >
+                    <h2>Edit Profile Data</h2>
+                    <form>
+                        Name:<input value={name} />
+                        Company:<input value={company} />
+                        Location:<input value={location} />
+                        Bio:<textarea value={bio} rows='5'></textarea>
+                        
+                    </form>
+                    <button onClick={props.closeModal}>Finished</button>
+                </Modal>
+            </div>
             <Link to='/repos'>
                 <h4>
                     Repos

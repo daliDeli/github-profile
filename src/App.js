@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Modal from 'react-modal';
 import { Profile } from './profile/Profile';
 import { Repositories } from './profile/Repositories';
 import { getProfileData, getUserRepos, editProfileData } from './services/communication';
@@ -46,17 +45,22 @@ class App extends Component {
     this.filterSearchedRepo(e.target.value);
   };
 
-  openModal() {
+  openModal = () => {
     this.setState({modalIsOpen: true});
   }
-  
+
+  closeModal = () => {
+    console.log('ulazi')
+    this.setState({modalIsOpen: false});
+  }
+
   render() {
     return (
       <div className='App'>
         {window.location.hash === '#/' ? <input onChange={this.onChangeName} value={this.state.inputUsername} placeholder='Enter your GitHub username' />
           : <input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search repos' />}
         <Switch>
-          <Route exact path='/' render={() => <Profile profileData={this.state.profile} />} />
+          <Route exact path='/' render={() => <Profile modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal} openModal={this.openModal} profileData={this.state.profile} />} />
           <Route path='/repos' render={() => <Repositories reposData={this.state.filteredRepos} />} />
         </Switch>
       </div>
