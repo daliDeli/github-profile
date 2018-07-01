@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { Input, Alert } from 'reactstrap';
 import { Profile } from './profile/Profile';
 import { Repositories } from './profile/Repositories';
 import { getProfileData, getUserRepos, editProfileData } from './services/communication';
@@ -41,7 +42,7 @@ class App extends Component {
         repos: data,
         filteredRepos: data
       }))
-      .catch(error =>  this.setState({
+      .catch(error => this.setState({
         isThereError: true
       }));
 
@@ -76,12 +77,12 @@ class App extends Component {
 
     return (
       <div className='App'>
-        {window.location.hash === '#/repos' && <input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search repos' />}
+        {this.state.isThereError && <Alert color="danger">There's been an error, please reload the page.</Alert>}
+        {window.location.hash === '#/repos' && <Input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search user repos...' />}
         <Switch>
           <Route exact path='/' render={() => <Profile changedProfile={this.state.changedProfile} onChangeProfileData={this.onChangeProfileData} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal} openModal={this.openModal} profileData={this.state.profile} />} />
           <Route path='/repos' render={() => <Repositories reposData={this.state.filteredRepos} />} />
         </Switch>
-        {this.state.isThereError && <p>There's been an error, please reload the page.</p>}
       </div>
     );
   }

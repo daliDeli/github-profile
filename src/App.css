@@ -1,0 +1,15 @@
+.card{
+    text-align: center;
+    background-color: #62B1F6;
+    color: whitesmoke;
+    width: 60vh;
+    margin: 5% auto;
+}
+.btn{
+    border: grey, solid, 1em;
+    background-color: whitesmoke;
+    color: #62B1F6;
+}
+.badge{
+    margin: 1%;
+}

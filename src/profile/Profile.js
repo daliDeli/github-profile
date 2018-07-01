@@ -1,61 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle,
+    Form, Input, Button
+} from 'reactstrap';
+import { DEFAULT_IMG } from '../utils/constants';
 
 export const Profile = props => {
     const noData = 'Data is not provided.';
-    const defaultImg = 'http://www.hope3k.net/images/placeholders/team-placeholder.jpg';
     const { name, avatarUrl, company, location, bio } = props.profileData;
+
     const customStyles = {
-        content : {
-          top                   : '50%',
-          left                  : '50%',
-          right                 : 'auto',
-          bottom                : 'auto',
-          marginRight           : '-50%',
-          transform             : 'translate(-50%, -50%)'
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)'
         }
-      };  
-    const onChangeProfileData = e =>console.warn(e) || props.onChangeProfileData(e);
+    };
+
+    const onChangeProfileData = e => props.onChangeProfileData(e);
+
     return (
         <div>
-            <h2>
-                Username: {name || noData}
-            </h2>
-            <img src={avatarUrl || defaultImg} alt='profile' />
-            <h3>
-                Company: {company || noData}
-            </h3>
-            <h3>
-                Location: {location || noData}
-            </h3>
-            <h3>
-                Bio: {bio || noData}
-            </h3>
+            <Card>
+                <CardImg top width="60%" src={avatarUrl || DEFAULT_IMG} alt='profile' />
+                <CardBody>
+                    <CardTitle>
+                        Username: {name || noData}
+                    </CardTitle>
+                    <CardSubtitle>
+                        Company: {company || noData}
+                    </CardSubtitle>
+                    <CardSubtitle>
+                        Location: {location || noData}
+                    </CardSubtitle>
+                    <CardText>
+                        Bio: {bio || noData}
+                    </CardText>
+                    <Button onClick={props.openModal} >
+                        Change Profile Data
+                    </Button>
+                </CardBody>
+
+                <Link to='/repos'>
+                    <Button>
+                        Repos
+                </Button>
+                </Link>
+            </Card>
             <div>
-                <button onClick={props.openModal}>Change Profile Data</button>
                 <Modal
+                    ariaHideApp={false}
                     isOpen={props.modalIsOpen}
                     onRequestClose={props.closeModal}
-                    style={customStyles} 
+                    style={customStyles}
                     contentLabel='Modal for Github Data Editing'
                 >
                     <h2>Edit Profile Data</h2>
-                    <form>
-                        Name:<input onChange={onChangeProfileData} name='name' value={props.changedProfile.name} />
-                        Company:<input onChange={onChangeProfileData} name='company' value={props.changedProfile.company} />
-                        Location:<input onChange={onChangeProfileData} name='location' value={props.changedProfile.location} />
-                        Bio:<textarea onChange={onChangeProfileData} name='bio' value={props.changedProfile.bio} rows='5'></textarea>
-                        
-                    <button type="submit" onClick={props.closeModal}>Finished</button>
-                    </form>
+                    <Form>
+                        Name<Input onChange={onChangeProfileData} name='name' value={props.changedProfile.name} />
+                        Company<Input onChange={onChangeProfileData} name='company' value={props.changedProfile.company} />
+                        Location<Input onChange={onChangeProfileData} name='location' value={props.changedProfile.location} />
+                        Bio<Input onChange={onChangeProfileData} name='bio' value={props.changedProfile.bio} rows='2' type="textarea" />
+
+                        <Button onClick={props.closeModal}>Edit Data</Button>
+                    </Form>
                 </Modal>
             </div>
-            <Link to='/repos'>
-                <h4>
-                    Repos
-                </h4>
-            </Link>
         </div>
     )
 };
