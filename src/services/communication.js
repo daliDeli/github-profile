@@ -13,13 +13,13 @@ export const getUserRepos = () => {
         .then(repoData => repoData.data.map(repo => new Repo(repo)));
 };
 
-export const editProfileData = () => {
+export const editProfileData = profileData => {
     return axios({
         method: 'PATCH',
         url: `${BASE_URL}user?access_token=${AUTH_TOKEN}`,
         headers: {
             "content-type": "application/json",
         },
-        data: "{ \"bio\": \"radi sada\"}"
+        data: JSON.stringify(profileData)
     });
 }

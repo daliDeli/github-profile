@@ -15,8 +15,8 @@ export const Profile = props => {
           marginRight           : '-50%',
           transform             : 'translate(-50%, -50%)'
         }
-      };      
-
+      };  
+    const onChangeProfileData = e =>console.warn(e) || props.onChangeProfileData(e);
     return (
         <div>
             <h2>
@@ -42,13 +42,13 @@ export const Profile = props => {
                 >
                     <h2>Edit Profile Data</h2>
                     <form>
-                        Name:<input value={name} />
-                        Company:<input value={company} />
-                        Location:<input value={location} />
-                        Bio:<textarea value={bio} rows='5'></textarea>
+                        Name:<input onChange={onChangeProfileData} name='name' value={props.changedProfile.name} />
+                        Company:<input onChange={onChangeProfileData} name='company' value={props.changedProfile.company} />
+                        Location:<input onChange={onChangeProfileData} name='location' value={props.changedProfile.location} />
+                        Bio:<textarea onChange={onChangeProfileData} name='bio' value={props.changedProfile.bio} rows='5'></textarea>
                         
+                    <button type="submit" onClick={props.closeModal}>Finished</button>
                     </form>
-                    <button onClick={props.closeModal}>Finished</button>
                 </Modal>
             </div>
             <Link to='/repos'>

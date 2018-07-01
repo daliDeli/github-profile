@@ -10,35 +10,53 @@ class App extends Component {
     super(props);
 
     this.state = {
-      inputUsername: '',
       searchedRepo: '',
       profile: {},
+      changedProfile: {
+        name: '',
+        img: '',
+        company: '',
+        location: '',
+        bio: ''
+      },
       repos: [],
       filteredRepos: [],
-      modalIsOpen: false
+      modalIsOpen: false,
+      isThereError: false
     }
   }
-  
+
   componentDidMount = () => {
     getProfileData()
-      .then(data => this.setState({ profile: data }))
-      .catch(error => console.error(error));
+      .then(data => this.setState({
+        profile: data,
+        changedProfile: data
+      }))
+      .catch(error => this.setState({
+        isThereError: true
+      }));
 
     getUserRepos()
       .then(data => this.setState({
         repos: data,
         filteredRepos: data
       }))
-      .catch(error => console.error(error));
+      .catch(error =>  this.setState({
+        isThereError: true
+      }));
 
-    editProfileData()
   }
 
   filterSearchedRepo = name => {
     this.setState({ filteredRepos: this.state.repos.filter(repo => repo.name.includes(name)) });
   };
 
-  onChangeName = e => this.setState({ inputUsername: e.target.value });
+  onChangeProfileData = e => this.setState({
+    changedProfile: {
+      ...this.state.changedProfile,
+      [e.target.name]: e.target.value
+    }
+  });
 
   onChangeRepo = e => {
     this.setState({ searchedRepo: e.target.value });
@@ -46,23 +64,24 @@ class App extends Component {
   };
 
   openModal = () => {
-    this.setState({modalIsOpen: true});
+    this.setState({ modalIsOpen: true });
   }
 
-  closeModal = () => {
-    console.log('ulazi')
-    this.setState({modalIsOpen: false});
+  closeModal = (e) => {
+    this.setState({ modalIsOpen: false });
+    editProfileData(this.state.changedProfile);
   }
 
   render() {
+
     return (
       <div className='App'>
-        {window.location.hash === '#/' ? <input onChange={this.onChangeName} value={this.state.inputUsername} placeholder='Enter your GitHub username' />
-          : <input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search repos' />}
+        {window.location.hash === '#/repos' && <input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search repos' />}
         <Switch>
-          <Route exact path='/' render={() => <Profile modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal} openModal={this.openModal} profileData={this.state.profile} />} />
+          <Route exact path='/' render={() => <Profile changedProfile={this.state.changedProfile} onChangeProfileData={this.onChangeProfileData} modalIsOpen={this.state.modalIsOpen} closeModal={this.closeModal} openModal={this.openModal} profileData={this.state.profile} />} />
           <Route path='/repos' render={() => <Repositories reposData={this.state.filteredRepos} />} />
         </Switch>
+        {this.state.isThereError && <p>There's been an error, please reload the page.</p>}
       </div>
     );
   }
