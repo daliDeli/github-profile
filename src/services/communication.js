@@ -12,3 +12,17 @@ export const getUserRepos = () => {
     return axios.get(`${URL}daliDeli/repos`)
             .then(repoData => repoData.data.map( repo=> new Repo(repo)));
 };
+
+export const editProfileData = () => {
+    // return axios.patch("https://api.github.com/user", {bio: 'radi radi'});
+    return axios({
+        method: 'patch',
+        url: "https://api.github.com/user",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Basic base64encode(tamaramarr:ireallydontcaredude)'
+        }
+    })
+            
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Profile } from './profile/Profile';
 import { Repositories } from './profile/Repositories';
-import { getProfileData, getUserRepos } from './services/communication' ;
+import { getProfileData, getUserRepos, editProfileData } from './services/communication' ;
 import './App.css';
 
 class App extends Component {
@@ -12,31 +12,43 @@ class App extends Component {
       inputUsername: '',
       searchedRepo: '',
       profile: {},
-      repos: []
+      repos: [],
+      filteredRepos: [] 
     }
   }
   // TODO pathname ne radi ali hash bi mogao
   componentDidMount = () =>{
-    console.warn('na svaku promenu')
     getProfileData()
-      .then(data => this.setState({ profile: data}))
-      .catch(error => console.error(error));
-
+    .then(data => this.setState({ profile: data}))
+    .catch(error => console.error(error));
+    
     getUserRepos()
-      .then(data => this.setState({ repos: data}))
+    .then(data => this.setState({ repos: data,
+                                  filteredRepos: data }))
       .catch(error => console.error(error));
-  }
+      
+    editProfileData()
+    }
+    
+    filterSearchedRepo = name => {
+      this.setState({ filteredRepos: this.state.repos.filter( repo => repo.name.includes(name)) });
+    };
 
-  onChange = e => this.setState({ inputUsername: e.target.value});
+    onChangeName = e => this.setState({ inputUsername: e.target.value });
+    
+    onChangeRepo = e => {
+      this.setState({ searchedRepo: e.target.value });
+      this.filterSearchedRepo(e.target.value);
+    };
 
-  render() {
+    render() {
     return (
       <div className='App'>
-        {window.location.hash === '#/' ? <input onChange={this.onChange} value={this.state.inputUsername} placeholder='Enter your GitHub username'/>
-                                       : <input onChange={this.onChange} value={this.state.searchedRepo} placeholder='Search repos'/>}
+        {window.location.hash === '#/' ? <input onChange={this.onChangeName} value={this.state.inputUsername} placeholder='Enter your GitHub username'/>
+                                       : <input onChange={this.onChangeRepo} value={this.state.searchedRepo} placeholder='Search repos'/>}
         <Switch>
           <Route exact path='/' render={() => <Profile profileData={this.state.profile}/>}/>
-          <Route path='/repos' render={() => <Repositories reposData={this.state.repos}/>}/>          
+          <Route path='/repos' render={() => <Repositories reposData={this.state.filteredRepos}/>}/>          
         </Switch>     
       </div>
     );
