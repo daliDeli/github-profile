@@ -1,5 +1,5 @@
 export default class User {
-    constructor(data){
+    constructor(data) {
         this.name = data.login;
         this.avatarUrl = data.avatar_url;
         this.company = data.company;

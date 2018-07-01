@@ -1,28 +1,25 @@
 import axios from 'axios';
-import { URL } from '../utils/constants';
+import { BASE_URL, AUTH_TOKEN } from '../utils/constants';
 import User from '../models/User';
 import Repo from '../models/Repo';
 
 export const getProfileData = () => {
-    return axios.get(`${URL}daliDeli`)
-            .then(profileData =>  new User(profileData.data));
+    return axios.get(`${BASE_URL}users/daliDeli`)
+        .then(profileData => new User(profileData.data));
 };
 
 export const getUserRepos = () => {
-    return axios.get(`${URL}daliDeli/repos`)
-            .then(repoData => repoData.data.map( repo=> new Repo(repo)));
+    return axios.get(`${BASE_URL}users/daliDeli/repos`)
+        .then(repoData => repoData.data.map(repo => new Repo(repo)));
 };
 
 export const editProfileData = () => {
-    // return axios.patch("https://api.github.com/user", {bio: 'radi radi'});
     return axios({
-        method: 'patch',
-        url: "https://api.github.com/user",
+        method: 'PATCH',
+        url: `${BASE_URL}user?access_token=${AUTH_TOKEN}`,
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Basic base64encode(tamaramarr:ireallydontcaredude)'
-        }
-    })
-            
+            "content-type": "application/json",
+        },
+        data: "{ \"bio\": \"radi sada\"}"
+    });
 }
