@@ -6,3 +6,20 @@ body {
   font-size: 1.5em;
   font-weight: 700;
 }
+
+.card{
+  text-align: center;
+  background-color: #62B1F6;
+  color: whitesmoke;
+  width: 60vh;
+  margin: 1% auto;
+}
+.btn{
+  border: grey, solid, 0.1em;
+  background-color: whitesmoke;
+  color: #62B1F6;
+  margin-bottom: 1%;
+}
+.badge{
+  margin: 1%;
+}

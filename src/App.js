@@ -4,7 +4,6 @@ import { Input, Alert } from 'reactstrap';
 import { Profile } from './profile/Profile';
 import { Repositories } from './profile/Repositories';
 import { getProfileData, getUserRepos, editProfileData } from './services/communication';
-import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class App extends Component {
       searchedRepo: '',
       profile: {},
       changedProfile: {
-        name: '',
+        // name: '',
         img: '',
         company: '',
         location: '',

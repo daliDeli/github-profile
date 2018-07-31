@@ -6,6 +6,9 @@
 # testing
 /coverage
 
+# utils
+/src/utils
+
 # production
 /build
 

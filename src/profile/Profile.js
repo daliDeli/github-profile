@@ -53,7 +53,6 @@ export const Profile = props => {
                 </Button>
                 </Link>
             </Card>
-            <div>
                 <Modal
                     ariaHideApp={false}
                     isOpen={props.modalIsOpen}
@@ -63,7 +62,7 @@ export const Profile = props => {
                 >
                     <h2>Edit Profile Data</h2>
                     <Form>
-                        Name<Input onChange={onChangeProfileData} name='name' value={props.changedProfile.name} />
+                        {/* Name<Input onChange={onChangeProfileData} name='name' value={props.changedProfile.name} /> */}
                         Company<Input onChange={onChangeProfileData} name='company' value={props.changedProfile.company} />
                         Location<Input onChange={onChangeProfileData} name='location' value={props.changedProfile.location} />
                         Bio<Input onChange={onChangeProfileData} name='bio' value={props.changedProfile.bio} rows='2' type="textarea" />
@@ -71,7 +70,6 @@ export const Profile = props => {
                         <Button onClick={props.closeModal}>Edit Data</Button>
                     </Form>
                 </Modal>
-            </div>
         </div>
     )
 };
