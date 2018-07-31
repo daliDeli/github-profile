@@ -1,4 +1,4 @@
-# project-WeatherMap
+# Github-profile
 
 This is an app which displays users data from his Github account and also lets him change some info. 
 
